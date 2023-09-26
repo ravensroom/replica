@@ -1,12 +1,17 @@
-import express, { Request, Response, Application } from 'express';
+import express from 'express';
 import env from './env';
+import APIRoute from './routes';
+import { handleErrors } from '@middlewares';
 
-const app: Application = express();
+const app = express();
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Express & TypeScript Server');
-});
+// apply middlewares
+app.use(express.json());
+
+// Register routes
+app.use('/api', APIRoute);
+app.use(handleErrors);
 
 app.listen(env.PORT, () => {
-  console.log(`Server is Fire at http://localhost:${env.PORT}`);
+  console.log(`Server is listening at http://localhost:${env.PORT}`);
 });
